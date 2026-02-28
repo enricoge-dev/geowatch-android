@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:gravity="center_horizontal">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GEOWATCH"
+            android:textColor="@color/cyan"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.2"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SISTEMA DI MONITORAGGIO IN TEMPO REALE"
+            android:textColor="@color/text_dim"
+            android:textSize="9sp"
+            android:letterSpacing="0.3"
+            android:layout_marginBottom="32dp"/>
+
+        <!-- Clock Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/card_bg"
+            android:padding="20dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="● ORA LOCALE"
+                android:textColor="@color/text_dim"
+                android:textSize="10sp"
+                android:letterSpacing="0.3"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- Time row with fixed-width digit pairs -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tv_hours"
+                    android:layout_width="84dp"
+                    android:layout_height="wrap_content"
+                    android:text="00"
+                    android:textColor="@color/white"
+                    android:textSize="56sp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:fontFeatureSettings="tnum"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textColor="@color/cyan"
+                    android:textSize="56sp"
+                    android:textStyle="bold"
+                    android:paddingBottom="4dp"/>
+
+                <TextView
+                    android:id="@+id/tv_minutes"
+                    android:layout_width="84dp"
+                    android:layout_height="wrap_content"
+                    android:text="00"
+                    android:textColor="@color/white"
+                    android:textSize="56sp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:fontFeatureSettings="tnum"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textColor="@color/cyan"
+                    android:textSize="56sp"
+                    android:textStyle="bold"
+                    android:paddingBottom="4dp"/>
+
+                <TextView
+                    android:id="@+id/tv_seconds"
+                    android:layout_width="84dp"
+                    android:layout_height="wrap_content"
+                    android:text="00"
+                    android:textColor="@color/white"
+                    android:textSize="56sp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:fontFeatureSettings="tnum"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="—"
+                android:textColor="@color/text_dim"
+                android:textSize="13sp"
+                android:gravity="center"
+                android:layout_marginTop="8dp"/>
+
+        </LinearLayout>
+
+        <!-- GPS Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/card_bg"
+            android:padding="20dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="● COORDINATE GPS"
+                android:textColor="@color/text_dim"
+                android:textSize="10sp"
+                android:letterSpacing="0.3"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- LAT -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="12dp">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="LAT"
+                    android:textColor="@color/text_dim"
+                    android:textSize="11sp"
+                    android:letterSpacing="0.2"/>
+                <TextView
+                    android:id="@+id/tv_lat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="—"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:gravity="end"
+                    android:fontFeatureSettings="tnum"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp"
+                android:background="@color/divider"/>
+
+            <!-- LON -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="LON"
+                    android:textColor="@color/text_dim"
+                    android:textSize="11sp"
+                    android:letterSpacing="0.2"/>
+                <TextView
+                    android:id="@+id/tv_lon"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="—"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:gravity="end"
+                    android:fontFeatureSettings="tnum"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp"
+                android:background="@color/divider"/>
+
+            <!-- ALT -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="ALT"
+                    android:textColor="@color/text_dim"
+                    android:textSize="11sp"
+                    android:letterSpacing="0.2"/>
+                <TextView
+                    android:id="@+id/tv_alt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="—"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:gravity="end"
+                    android:fontFeatureSettings="tnum"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp"
+                android:background="@color/divider"/>
+
+            <TextView
+                android:id="@+id/tv_accuracy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Precisione: —"
+                android:textColor="@color/green"
+                android:textSize="12sp"
+                android:paddingTop="12dp"/>
+
+        </LinearLayout>
+
+        <!-- Refresh button -->
+        <Button
+            android:id="@+id/btn_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="↻  AGGIORNA POSIZIONE"
+            android:textColor="@color/cyan"
+            android:textSize="12sp"
+            android:letterSpacing="0.2"
+            android:backgroundTint="@color/surface"
+            android:strokeColor="@color/cyan_dim"
+            android:layout_marginBottom="12dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+        <!-- Status -->
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Avvio in corso..."
+            android:textColor="@color/text_dim"
+            android:textSize="11sp"
+            android:gravity="center"
+            android:layout_marginBottom="32dp"/>
+
+    </LinearLayout>
+</ScrollView>
