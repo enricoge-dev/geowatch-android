@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
@@ -38,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Bind views
         tvHours    = findViewById(R.id.tv_hours);
         tvMinutes  = findViewById(R.id.tv_minutes);
         tvSeconds  = findViewById(R.id.tv_seconds);
@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         tvAccuracy = findViewById(R.id.tv_accuracy);
         tvStatus   = findViewById(R.id.tv_status);
 
-        // Start clock
         clockHandler = new Handler(Looper.getMainLooper());
         clockRunnable = new Runnable() {
             @Override
@@ -60,11 +59,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         };
         clockHandler.post(clockRunnable);
 
-        // GPS
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         checkAndRequestPermission();
 
-        // Refresh button
         findViewById(R.id.btn_refresh).setOnClickListener(v -> startLocationUpdates());
     }
 
@@ -96,23 +93,44 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         tvLat.setText("—");
         tvLon.setText("—");
         tvAlt.setText("—");
-        tvAccuracy.setText("Segnale: —");
+        tvAccuracy.setText("Precisione: —");
 
-        try {
-            locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER, 2000, 0, this);
-            locationManager.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER, 2000, 0, this);
+        // Registra su tutti i provider disponibili sul dispositivo
+        List<String> providers = locationManager.getAllProviders();
+        boolean anyRegistered = false;
 
-            // Show last known immediately
-            Location last = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if (last == null)
-                last = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            if (last != null) onLocationChanged(last);
-
-        } catch (Exception e) {
-            tvStatus.setText("Errore GPS: " + e.getMessage());
+        for (String provider : providers) {
+            try {
+                if (locationManager.isProviderEnabled(provider)) {
+                    locationManager.requestLocationUpdates(provider, 2000, 0, this);
+                    anyRegistered = true;
+                }
+            } catch (Exception ignored) {}
         }
+
+        if (!anyRegistered) {
+            tvStatus.setText("Nessun provider di posizione disponibile");
+            return;
+        }
+
+        // Mostra subito l'ultima posizione nota dal provider migliore
+        Location best = null;
+        for (String provider : providers) {
+            try {
+                Location l = locationManager.getLastKnownLocation(provider);
+                if (l != null) {
+                    if (best == null || l.getAccuracy() < best.getAccuracy()) {
+                        best = l;
+                    }
+                }
+            } catch (Exception ignored) {}
+        }
+        if (best != null) onLocationChanged(best);
+
+        String providerInfo = providers.contains(LocationManager.GPS_PROVIDER)
+                && locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                ? "GPS" : "Rete/WiFi";
+        tvStatus.setText("Acquisizione via " + providerInfo + "...");
     }
 
     @Override
@@ -127,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         tvLat.setText(lat);
         tvLon.setText(lon);
         tvAlt.setText(alt);
-        tvAccuracy.setText("Precisione: " + acc);
+        tvAccuracy.setText("Precisione: " + acc + " via " + location.getProvider());
 
         SimpleDateFormat hms = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
         tvStatus.setText("Aggiornato: " + hms.format(new Date()));
@@ -146,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 startLocationUpdates();
             } else {
-                tvStatus.setText("Permesso GPS negato");
+                tvStatus.setText("Permesso posizione negato");
             }
         }
     }
